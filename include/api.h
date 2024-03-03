@@ -76,7 +76,6 @@
 #include "pros/vision.hpp"
 #include "pros/link.hpp"
 
-#include "titantron/joysticks.hpp"
 #endif
 
 #endif  // _PROS_API_H_
