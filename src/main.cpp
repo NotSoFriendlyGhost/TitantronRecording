@@ -34,10 +34,10 @@ void initialize() {
 	master.rumble(".");
 	master.set_text(0,0,"Ready to roll");
 
-	leftA.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	leftB.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	rightA.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	rightB.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	leftFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	leftBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	rightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	rightBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -93,17 +93,8 @@ void autonomous() {}
 bool wingState = 0;
 void opcontrol() {
 	while (true) {
-		int power = master.get_analog(ANALOG_LEFT_Y);
-		power = opcontrolLeftCurve(power);
-		int turn = master.get_analog(ANALOG_RIGHT_X);
-		turn = opcontrolRightCurve(turn);
-		int left = power + turn;
-		int right = power - turn;
-		leftA.move(left);
-		leftB.move(left);
-		rightA.move(right);
-		rightB.move(right);
-
+		arcadeDrive();
+		
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 			intake.move_voltage(12000);
 		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
