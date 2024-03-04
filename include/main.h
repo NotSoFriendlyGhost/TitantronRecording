@@ -79,6 +79,7 @@ void opcontrol(void);
 #include "titantron/devices.hpp"
 #include "titantron/arcadeDrive.hpp"
 #include "titantron/selection.h"
+#include "titantron/autons.hpp"
 //#include <iostream>
 #endif
 

@@ -73,7 +73,27 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	switch(selector::auton){
+		case 1:
+			redLeft();
+			break;
+		case 2:
+			redRight();
+			break;
+		case -1:
+			blueLeft();
+			break;
+		case -2:
+			blueRight();
+			break;
+		case 0:
+			skills();
+			break;
+		default:
+			break;
+	}
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
