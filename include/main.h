@@ -78,6 +78,7 @@ void opcontrol(void);
 #include "titantron/joystickCurves.hpp"
 #include "titantron/devices.hpp"
 #include "titantron/arcadeDrive.hpp"
+#include "titantron/selection.h"
 //#include <iostream>
 #endif
 
