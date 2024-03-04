@@ -1,7 +1,5 @@
 #include "main.h"
 
-
-
 /**
  * A callback function for LLEMU's center button.
  *
@@ -28,6 +26,7 @@ void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
 
+	master.clear();
 	master.set_text(0,0,"Calibrating IMU...");
 	imu.reset(true);
 	master.clear_line(0);
@@ -89,18 +88,36 @@ void autonomous() {}
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-
-bool wingState = 0;
 void opcontrol() {
+	master.set_text(1,0,"Flywheel Velocity: 50%");
 	while (true) {
 		arcadeDrive();
 		
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 			intake.move_voltage(12000);
 		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
-			intake.move_velocity(-12000);
+			intake.move_voltage(-12000);
 		else
 			intake.brake();
+
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
+			flywheel.move_velocity(600*flywheelVelocity);
+		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
+			flywheel.move_velocity(-600*flywheelVelocity);
+		else flywheel.brake();
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
+			if(flywheelVelocity==0.5){
+				flywheelVelocity = 0.75;
+				master.clear_line(1);
+				master.set_text(1,0,"Flywheel Velocity: 75%");
+			}
+			else{
+				flywheelVelocity = 0.5;
+				master.clear_line(1);
+				master.set_text(1,0,"Flywheel Velocity: 50%");
+			}
+		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) 
 			wingState = !wingState;
