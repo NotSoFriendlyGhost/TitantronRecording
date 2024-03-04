@@ -1,9 +1,9 @@
 #include "main.h"
+#include "pros/motors.h"
+#include "titantron/devices.hpp"
 
 
 
-pros::Controller master (CONTROLLER_MASTER);
-pros::Imu imu(8);
 /**
  * A callback function for LLEMU's center button.
  *
@@ -30,12 +30,19 @@ void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
 
-	master.set_text(0,0,"Calibrating...");
+	master.set_text(0,0,"Calibrating IMU...");
 	imu.reset(true);
 	master.clear_line(0);
 	master.rumble(".");
 	master.set_text(0,0,"Ready to roll");
 
+	leftA.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	leftB.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	rightA.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	rightB.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+
+	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	pros::lcd::register_btn1_cb(on_center_button);
 }
@@ -85,10 +92,6 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Motor leftA (1,true);
-	pros::Motor leftB(12,true);
-	pros::Motor rightA (18);
-	pros::Motor rightB (10);
 	while (true) {
 		int power = master.get_analog(ANALOG_LEFT_Y);
 		power = opcontrolLeftCurve(power);
@@ -100,6 +103,11 @@ void opcontrol() {
 		leftB.move(left);
 		rightA.move(right);
 		rightB.move(right);
+
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
+			intake.move_velocity(200);
+		else
+			intake.brake();
 	
 		pros::delay(2);
 	}

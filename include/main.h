@@ -76,6 +76,7 @@ void opcontrol(void);
  * You can add C++-only headers here
  */
 #include "titantron/joysticks.hpp"
+#include "titantron/devices.hpp"
 //#include <iostream>
 #endif
 
