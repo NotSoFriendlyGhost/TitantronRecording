@@ -1,6 +1,4 @@
 #include "main.h"
-#include "pros/motors.h"
-#include "titantron/devices.hpp"
 
 
 
@@ -91,6 +89,8 @@ void autonomous() {}
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+
+bool wingState = 0;
 void opcontrol() {
 	while (true) {
 		int power = master.get_analog(ANALOG_LEFT_Y);
@@ -105,9 +105,15 @@ void opcontrol() {
 		rightB.move(right);
 
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
-			intake.move_velocity(200);
+			intake.move_voltage(12000);
+		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
+			intake.move_velocity(-12000);
 		else
 			intake.brake();
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) 
+			wingState = !wingState;
+		wings.set_value(wingState);
 	
 		pros::delay(2);
 	}
