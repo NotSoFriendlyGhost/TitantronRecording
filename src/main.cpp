@@ -89,8 +89,6 @@ void opcontrol() {
 	pros::Motor leftB(12,true);
 	pros::Motor rightA (18);
 	pros::Motor rightB (10);
-	leftCurveScale = 0.75;
-	rightCurveScale = 0.75;
 	while (true) {
 		int power = master.get_analog(ANALOG_LEFT_Y);
 		power = opcontrolLeftCurve(power);

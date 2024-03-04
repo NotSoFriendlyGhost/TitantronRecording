@@ -39,7 +39,6 @@
 /**
  * You should add more #includes here
  */
-#include "titantron/joysticks.hpp"
 //#include "okapi/api.hpp"
 //#include "pros/api_legacy.h"
 
@@ -76,6 +75,7 @@ void opcontrol(void);
 /**
  * You can add C++-only headers here
  */
+#include "titantron/joysticks.hpp"
 //#include <iostream>
 #endif
 
