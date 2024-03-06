@@ -1,9 +1,10 @@
 #include "main.h"
+#include "pros/motors.h"
 
-pros::Motor leftFront(1,pros::E_MOTOR_GEAR_GREEN,true);
-pros::Motor leftBack(12,pros::E_MOTOR_GEAR_GREEN, true);
-pros::Motor rightFront(10, pros::E_MOTOR_GEAR_GREEN);
-pros::Motor rightBack(18, pros::E_MOTOR_GEAR_GREEN);
+pros::Motor leftFront(1,pros::E_MOTOR_GEAR_GREEN,true,pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor leftBack(12,pros::E_MOTOR_GEAR_GREEN, true,pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor rightFront(10, pros::E_MOTOR_GEAR_GREEN,pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor rightBack(18, pros::E_MOTOR_GEAR_GREEN,pros::E_MOTOR_ENCODER_DEGREES);
 
 pros::Motor intake(5);
 pros::Motor flywheel(15, pros::E_MOTOR_GEAR_BLUE, true);
