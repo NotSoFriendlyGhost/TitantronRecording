@@ -35,6 +35,8 @@ void initialize() {
 	master.rumble(".");
 	master.set_text(0,0,"Ready to roll");
 
+	Drivetrain drive;
+
 	leftFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	leftBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	rightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);

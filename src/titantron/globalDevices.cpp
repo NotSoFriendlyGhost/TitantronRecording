@@ -1,0 +1,14 @@
+#include "main.h"
+#include "pros/motors.h"
+
+pros::Motor intake(5);
+pros::Motor flywheel(15, pros::E_MOTOR_GEAR_BLUE, true);
+pros::ADIDigitalOut wings('A', false);
+
+pros::Controller master (CONTROLLER_MASTER);
+pros::Imu imu(8);
+
+float flywheelVelocity = 0.5;
+bool wingState = 0;
+
+// TODO: Lifter setup - wait for lifter build

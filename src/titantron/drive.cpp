@@ -1,8 +1,9 @@
+#include "drive.hpp"
 #include "main.h"
 
-void resetDriveEncoders(){
-    leftFront.tare_position();
-    leftBack.tare_position();
-    rightFront.tare_position();
-    rightBack.tare_position();
+void Drivetrain::resetDriveEncoders(){
+    this->leftFront.tare_position();
+    this->leftBack.tare_position();
+    this->rightFront.tare_position();
+    this->rightBack.tare_position();
 }
