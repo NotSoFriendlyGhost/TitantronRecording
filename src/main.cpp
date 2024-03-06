@@ -1,4 +1,5 @@
 #include "main.h"
+#include "titantron/selection.h"
 
 /**
  * A callback function for LLEMU's center button.
@@ -25,6 +26,7 @@ void on_center_button() {
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
+	selector::init();
 
 	master.clear();
 	master.set_text(0,0,"Calibrating IMU...");
