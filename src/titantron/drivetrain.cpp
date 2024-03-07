@@ -1,3 +1,4 @@
+#include "drivetrain.hpp"
 #include "main.h"
 #include "pros/rtos.hpp"
 
@@ -58,23 +59,29 @@ void Drivetrain::brakeAll(){
     rightBack->brake();
 }
 
+void Drivetrain::driveAll(double power){
+    leftFront->move_voltage(power);
+    leftBack->move_voltage(power);
+    rightFront->move_voltage(power);
+    rightBack->move_voltage(power);
+}
+
 void Drivetrain::driveForwardPID(double desiredPoint){
     resetDriveEncoders();
-    double error = 1;
+    double error = 100;
     double prevError = 0;
     double integral = 0;
     double derivative;
-    while(fabs(error)>1){
+    bool enablePID = true;
+    while(enablePID){
         error = desiredPoint - (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
         integral += error;
         derivative = error-prevError;
         prevError = error;
         
         double power = error*kP + integral * kP + derivative*kD;
-        leftFront->move_voltage(power);
-        leftBack->move_voltage(power);
-        rightFront->move_voltage(power);
-        rightBack->move_voltage(power);
+        driveAll(power);
+        
         pros::delay(15);
     }
     brakeAll();

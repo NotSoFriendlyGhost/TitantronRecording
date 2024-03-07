@@ -22,7 +22,7 @@ void initialize() {
 	master.set_text(0,0,"Ready to roll");
 	pros::delay(100);
 
-	drive.setPID(50, 0, 0);
+	drive.setPID(10, 0, 0);
 
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -102,14 +102,14 @@ void opcontrol() {
 	while (true) {
 		drive.arcadeDrive();
 		
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 			intake.move_voltage(12000);
-		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
+		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 			intake.move_voltage(-12000);
 		else
 			intake.brake();
 
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 			flywheel.move_velocity(600*flywheelVelocity);
 		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
 			flywheel.move_velocity(-600*flywheelVelocity);

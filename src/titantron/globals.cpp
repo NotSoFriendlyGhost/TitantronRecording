@@ -8,7 +8,7 @@ pros::Motor flywheel(15, pros::E_MOTOR_GEAR_BLUE, true);
 pros::ADIDigitalOut wings('A', false);
 
 pros::Controller master (CONTROLLER_MASTER);
-pros::Imu imu(8);
+pros::Imu imu(13);
 
 float flywheelVelocity = 0.5;
 bool wingState = 0;

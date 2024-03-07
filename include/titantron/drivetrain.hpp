@@ -16,7 +16,7 @@ class Drivetrain{
         void arcadeDrive();
         void setBrakeMode(pros::motor_brake_mode_e brakeMode);
         void brakeAll();
+        void driveAll(double power);
         void driveForwardPID(double encoderDegrees);
         void driveBackward();
-        void driveForwardPID();
 };
