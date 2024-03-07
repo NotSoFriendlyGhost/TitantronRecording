@@ -1,4 +1,6 @@
+#include "globals.hpp"
 #include "main.h"
+#include <string>
 
 /**
  *
@@ -42,4 +44,25 @@ void Drivetrain::setBrakeMode(pros::motor_brake_mode_e brakeMode){
     leftBack->set_brake_mode(brakeMode);
     rightFront->set_brake_mode(brakeMode);
     rightBack->set_brake_mode(brakeMode);
+}
+
+void Drivetrain::driveForward(){
+    resetDriveEncoders();
+    leftFront->move_absolute(253.864,100);
+    leftBack->move_absolute(253.864,100);
+    rightFront->move_absolute(253.864,100);
+    rightBack->move_absolute(253.864,100);
+    master.clear_line(0);
+    pros::delay(1000);
+    std::string position = std::to_string(leftFront->get_position());
+    
+    master.set_text(0,0,position);
+    pros::delay(100);
+}
+
+void Drivetrain::driveBackward(){
+    leftFront->move_relative(-360,100);
+    leftBack->move_relative(-360,100);
+    rightFront->move_relative(-360,100);
+    rightBack->move_relative(-360,100);
 }

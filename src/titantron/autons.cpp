@@ -1,10 +1,13 @@
+#include "globals.hpp"
 #include "main.h"
 
 void redLeft(){
+    drive.driveForward();
 
 }
 
 void redRight(){
+    drive.driveBackward();
 
 }
 
