@@ -1,6 +1,5 @@
-#include "globals.hpp"
 #include "main.h"
-#include <string>
+#include "pros/rtos.hpp"
 
 /**
  *
@@ -17,6 +16,12 @@ Drivetrain::Drivetrain(int leftA, int leftB, int rightA, int rightB){
     rightFront = new pros::Motor(rightA,pros::E_MOTOR_GEAR_GREEN,reversed,pros::E_MOTOR_ENCODER_DEGREES);
     reversed = (rightB<0);
     rightBack = new pros::Motor(rightB,pros::E_MOTOR_GEAR_GREEN,reversed,pros::E_MOTOR_ENCODER_DEGREES);
+}
+
+void Drivetrain::setPID(double p, double i, double d){
+    kP = p;
+    kI = i;
+    kD = d;
 }
 
 void Drivetrain::resetDriveEncoders(){
@@ -46,12 +51,30 @@ void Drivetrain::setBrakeMode(pros::motor_brake_mode_e brakeMode){
     rightBack->set_brake_mode(brakeMode);
 }
 
-void Drivetrain::driveForward(){
+void Drivetrain::driveForwardPID(double desiredPoint){
     resetDriveEncoders();
-    leftFront->move_absolute(253.864,100);
-    leftBack->move_absolute(253.864,100);
-    rightFront->move_absolute(253.864,100);
-    rightBack->move_absolute(253.864,100);
+    double error = 1;
+    double prevError = 0;
+    double integral = 0;
+    double derivative;
+    while(fabs(error)>1){
+        error = desiredPoint - (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
+        integral += error;
+        derivative = error-prevError;
+        prevError = error;
+        
+        double power = error*kP + integral * kP + derivative*kD;
+        leftFront->move_voltage(power);
+        leftBack->move_voltage(power);
+        rightFront->move_voltage(power);
+        rightBack->move_voltage(power);
+        pros::delay(15);
+    }
+    leftFront->brake();
+    leftBack->brake();
+    rightFront->brake();
+    rightBack->brake();
+    
     master.clear_line(0);
     pros::delay(1000);
     std::string position = std::to_string(leftFront->get_position());

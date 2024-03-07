@@ -22,6 +22,8 @@ void initialize() {
 	master.set_text(0,0,"Ready to roll");
 	pros::delay(100);
 
+	drive.setPID(0, 0, 0);
+
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
