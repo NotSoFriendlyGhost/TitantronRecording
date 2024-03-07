@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pros/rtos.hpp"
 
 /**
  * A callback function for LLEMU's center button.
@@ -28,12 +29,15 @@ void initialize() {
 	pros::lcd::set_text(1, "Hello PROS User!");
 	selector::init();
 
-	master.clear();
 	master.set_text(0,0,"Calibrating IMU...");
+	pros::delay(100);
 	imu.reset(true);
 	master.clear_line(0);
+	pros::delay(100);
 	master.rumble(".");
+	pros::delay(100);
 	master.set_text(0,0,"Ready to roll");
+	pros::delay(100);
 
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -109,6 +113,7 @@ void autonomous() {
  */
 void opcontrol() {
 	master.set_text(1,0,"Flywheel Velocity: 50%");
+	master.print(1, 0, "Flywheel Velocity: 50%");
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
 		drive.arcadeDrive();
