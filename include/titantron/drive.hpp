@@ -1,20 +1,18 @@
 #pragma once
 
 #include "main.h"
+#include "pros/motors.h"
 #include "pros/motors.hpp"
 
 class Drivetrain{
     private:
-        pros::Motor leftFront;
-        pros::Motor leftBack;
-        pros::Motor rightFront;
-        pros::Motor rightBack;  
+        pros::Motor* leftFront;
+        pros::Motor* leftBack;
+        pros::Motor* rightFront;
+        pros::Motor* rightBack;  
     public:
-        Drivetrain(){
-            pros::Motor leftFront(1);
-            pros::Motor leftBack(10);
-            pros::Motor rightFront(11);
-            pros::Motor rightBack(20);
-        }
+        Drivetrain(int leftA, int leftB, int rightA, int rightB);
         void resetDriveEncoders();
+        void arcadeDrive();
+        void setBrakeMode(pros::motor_brake_mode_e brakeMode);
 };

@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pros/motors.h"
 #include "titantron/selection.h"
 
 /**
@@ -23,6 +24,9 @@ void on_center_button() {
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
+Drivetrain drive(-1,-12,10,18);
+
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
@@ -35,12 +39,6 @@ void initialize() {
 	master.rumble(".");
 	master.set_text(0,0,"Ready to roll");
 
-	Drivetrain drive;
-
-	leftFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	leftBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	rightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	rightBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -78,6 +76,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+	drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 	switch(selector::auton){
 		case 1:
 			redLeft();
@@ -114,8 +113,9 @@ void autonomous() {
  */
 void opcontrol() {
 	master.set_text(1,0,"Flywheel Velocity: 50%");
+	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
-		arcadeDrive();
+		drive.arcadeDrive();
 		
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 			intake.move_voltage(12000);
