@@ -77,6 +77,7 @@ void competition_initialize() {}
  */
 void autonomous() {
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+	drive.resetDriveEncoders();
 	switch(selector::auton){
 		case 1:
 			redLeft();
