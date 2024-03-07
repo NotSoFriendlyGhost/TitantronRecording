@@ -51,6 +51,13 @@ void Drivetrain::setBrakeMode(pros::motor_brake_mode_e brakeMode){
     rightBack->set_brake_mode(brakeMode);
 }
 
+void Drivetrain::brakeAll(){
+    leftFront->brake();
+    leftBack->brake();
+    rightFront->brake();
+    rightBack->brake();
+}
+
 void Drivetrain::driveForwardPID(double desiredPoint){
     resetDriveEncoders();
     double error = 1;
@@ -70,10 +77,8 @@ void Drivetrain::driveForwardPID(double desiredPoint){
         rightBack->move_voltage(power);
         pros::delay(15);
     }
-    leftFront->brake();
-    leftBack->brake();
-    rightFront->brake();
-    rightBack->brake();
+    brakeAll();
+    
     
     master.clear_line(0);
     pros::delay(1000);

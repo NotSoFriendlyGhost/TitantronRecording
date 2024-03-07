@@ -3,7 +3,7 @@
 
 Drivetrain drive(-1,-12,10,18);
 
-pros::Motor intake(5);
+pros::Motor intake(2);
 pros::Motor flywheel(15, pros::E_MOTOR_GEAR_BLUE, true);
 pros::ADIDigitalOut wings('A', false);
 
