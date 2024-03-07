@@ -1,6 +1,4 @@
 #include "main.h"
-#include "pros/motors.h"
-#include "titantron/selection.h"
 
 /**
  * A callback function for LLEMU's center button.
@@ -24,8 +22,6 @@ void on_center_button() {
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-
-Drivetrain drive(-1,-12,10,18);
 
 void initialize() {
 	pros::lcd::initialize();

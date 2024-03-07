@@ -76,10 +76,10 @@ void opcontrol(void);
  * You can add C++-only headers here
  */
 #include "titantron/joystickCurves.hpp"
-#include "titantron/globalDevices.hpp"
+#include "titantron/globals.hpp"
 #include "titantron/selection.h"
 #include "titantron/autons.hpp"
-#include "titantron/drive.hpp"
+#include "titantron/drivetrain.hpp"
 //#include <iostream>
 #endif
 

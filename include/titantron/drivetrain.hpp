@@ -1,8 +1,6 @@
 #pragma once
 
 #include "main.h"
-#include "pros/motors.h"
-#include "pros/motors.hpp"
 
 class Drivetrain{
     private:

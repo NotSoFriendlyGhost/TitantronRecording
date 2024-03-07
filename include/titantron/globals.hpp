@@ -2,7 +2,8 @@
 
 #include "main.h"
 
-
+class Drivetrain;
+extern Drivetrain drive;
 
 extern pros::Motor intake;
 extern pros::Motor flywheel;
