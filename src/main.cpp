@@ -1,21 +1,6 @@
 #include "main.h"
 #include "pros/rtos.hpp"
 
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -25,8 +10,6 @@ void on_center_button() {
  */
 
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
 	selector::init();
 
 	master.set_text(0,0,"Calibrating IMU...");
@@ -42,8 +25,6 @@ void initialize() {
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-	pros::lcd::register_btn1_cb(on_center_button);
 }
 
 /**
