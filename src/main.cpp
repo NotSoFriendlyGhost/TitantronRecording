@@ -141,6 +141,8 @@ void opcontrol() {
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) autonomous();
 
+		if(recording) ofs<<'\n';
+
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
 			if(!recording){
 				master.clear_line(1);

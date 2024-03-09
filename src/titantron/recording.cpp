@@ -3,6 +3,7 @@
 #include <ios>
 
 void startRecording(std::string filename){
+    filename = "/usd/" + filename;
     ofs.open(filename.c_str(), std::ios::out | std::ios::trunc);
     recording = true;
 }
