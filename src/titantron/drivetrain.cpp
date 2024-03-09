@@ -1,4 +1,6 @@
+#include "globals.hpp"
 #include "main.h"
+#include "recording.hpp"
 
 /**
  *
@@ -32,8 +34,23 @@ void Drivetrain::resetDriveEncoders(){
 
 void Drivetrain::arcadeDrive(){
     int power = master.get_analog(ANALOG_LEFT_Y);
+    if(recording) trackLeftStick(power);
     power = opcontrolLeftCurve(power);
     int turn = master.get_analog(ANALOG_RIGHT_X);
+    if(recording) trackRightStick(turn);
+    turn = opcontrolRightCurve(turn);
+    int left = power + turn;
+    int right = power - turn;
+    leftFront->move(left);
+    leftBack->move(left);
+    rightFront->move(right);
+    rightBack->move(right);
+}
+
+void Drivetrain::playbackDrive(double leftStick, double rightStick){
+    int power = leftStick;
+    power = opcontrolLeftCurve(power);
+    int turn = rightStick;
     turn = opcontrolRightCurve(turn);
     int left = power + turn;
     int right = power - turn;

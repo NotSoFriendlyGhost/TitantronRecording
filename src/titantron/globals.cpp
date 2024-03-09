@@ -1,4 +1,5 @@
 #include "main.h"
+#include <fstream>
 
 
 Drivetrain drive(-1,-12,10,18);
@@ -12,5 +13,8 @@ pros::Imu imu(13);
 
 float flywheelVelocity = 0.5;
 bool wingState = 0;
+
+std::ofstream ofs; //Used for recording
+bool recording = false;
 
 // TODO: Lifter setup - wait for lifter build

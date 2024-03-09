@@ -1,4 +1,11 @@
 #include "main.h"
+<<<<<<< HEAD
+=======
+#include "pros/misc.h"
+#include "pros/rtos.hpp"
+#include "titantron/globals.hpp"
+#include "titantron/recording.hpp"
+>>>>>>> auton-recording
 
 
 /**
@@ -10,15 +17,14 @@
 
 void initialize() {
 	selector::init();
-
-	master.set_text(0,0,"Calibrating IMU...");
+	master.clear();
+	pros::delay(100);
+	master.set_text(0,0, "Calibrating Intertial...");
 	pros::delay(100);
 	imu.reset(true);
 	master.clear_line(0);
 	pros::delay(100);
-	master.rumble(".");
-	pros::delay(100);
-	master.set_text(0,0,"Ready to roll");
+	master.set_text(0,0,"Inertial Calibrated");
 	pros::delay(100);
 
 	drive.setPID(300,0, 0);
@@ -101,12 +107,18 @@ void opcontrol() {
 	while (true) {
 		drive.arcadeDrive();
 		
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 			intake.move_voltage(12000);
-		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
+			if(recording) trackIntake(1);
+		}
+		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
 			intake.move_voltage(-12000);
-		else
+			if(recording) trackIntake(-1);
+		}
+		else{
 			intake.brake();
+			if(recording) trackIntake(0);
+		}
 
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 			flywheel.move_velocity(600*flywheelVelocity);
@@ -127,11 +139,44 @@ void opcontrol() {
 			}
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) 
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
 			wingState = !wingState;
+			//if(recording) trackWings(wingState);
+		} 
 		wings.set_value(wingState);
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) autonomous();
+
+		if(recording) ofs<<'\n';
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+			if(!recording){
+				master.clear_line(1);
+				pros::delay(100);
+				master.set_text(1,0,"Recording...");
+				pros::delay(100);
+				startRecording("recording.txt");
+			}
+			else {
+				stopRecording();
+				master.clear_line(1);
+				pros::delay(100);
+				master.set_text(1,0,"Recording Saved");
+				pros::delay(100);
+			}
+		}
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			master.clear_line(1);
+			pros::delay(100);
+			master.set_text(1,0, "Replaying...");
+			pros::delay(100);
+			playback("recording.txt");
+			master.clear_line(1);
+			pros::delay(100);
+			master.set_text(1,0, "Replay Done");
+			pros::delay(100);
+
+		}
 	
 		pros::delay(2);
 	}

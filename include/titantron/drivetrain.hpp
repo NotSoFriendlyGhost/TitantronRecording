@@ -14,6 +14,7 @@ class Drivetrain{
         void setPID(double p, double i, double d);
         void resetDriveEncoders();
         void arcadeDrive();
+        void playbackDrive(double leftStick, double rightStick);
         void setBrakeMode(pros::motor_brake_mode_e brakeMode);
         void brakeAll();
         void driveAll(double power);

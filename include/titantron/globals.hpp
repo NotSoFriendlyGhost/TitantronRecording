@@ -1,6 +1,7 @@
 #pragma once
 
 #include "main.h"
+#include <fstream>
 
 class Drivetrain;
 extern Drivetrain drive;
@@ -14,3 +15,6 @@ extern pros::Imu imu;
 
 extern float flywheelVelocity;
 extern bool wingState;
+
+extern std::ofstream ofs;
+extern bool recording;
