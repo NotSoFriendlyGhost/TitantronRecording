@@ -47,6 +47,19 @@ void Drivetrain::arcadeDrive(){
     rightBack->move(right);
 }
 
+void Drivetrain::playbackDrive(double leftStick, double rightStick){
+    int power = leftStick;
+    power = opcontrolLeftCurve(power);
+    int turn = rightStick;
+    turn = opcontrolRightCurve(turn);
+    int left = power + turn;
+    int right = power - turn;
+    leftFront->move(left);
+    leftBack->move(left);
+    rightFront->move(right);
+    rightBack->move(right);
+}
+
 void Drivetrain::setBrakeMode(pros::motor_brake_mode_e brakeMode){
     leftFront->set_brake_mode(brakeMode);
     leftBack->set_brake_mode(brakeMode);

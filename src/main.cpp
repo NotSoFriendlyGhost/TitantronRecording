@@ -135,7 +135,7 @@ void opcontrol() {
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
 			wingState = !wingState;
-			if(recording) trackWings(wingState);
+			//if(recording) trackWings(wingState);
 		} 
 		wings.set_value(wingState);
 
@@ -158,6 +158,18 @@ void opcontrol() {
 				master.set_text(1,0,"Recording Saved");
 				pros::delay(100);
 			}
+		}
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			master.clear_line(1);
+			pros::delay(100);
+			master.set_text(1,0, "Replaying...");
+			pros::delay(100);
+			playback("recording.txt");
+			master.clear_line(1);
+			pros::delay(100);
+			master.set_text(1,0, "Replay Done");
+			pros::delay(100);
+
 		}
 	
 		pros::delay(2);
