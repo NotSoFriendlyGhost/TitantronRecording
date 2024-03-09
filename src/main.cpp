@@ -14,9 +14,12 @@
 
 void initialize() {
 	selector::init();
-
-	imu.reset(true);
 	master.clear();
+	pros::delay(100);
+	master.set_text(0,0, "Calibrating Intertial...");
+	pros::delay(100);
+	imu.reset(true);
+	master.clear_line(0);
 	pros::delay(100);
 	master.set_text(0,0,"Inertial Calibrated");
 	pros::delay(100);
