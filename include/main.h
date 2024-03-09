@@ -80,10 +80,7 @@ void opcontrol(void);
 #include "titantron/selection.h" // IWYU pragma: export
 #include "titantron/autons.hpp" // IWYU pragma: export
 #include "titantron/drivetrain.hpp" // IWYU pragma: export
-<<<<<<< HEAD
-=======
 #include "titantron/recording.hpp" // IWYU pragma: export
->>>>>>> auton-recording
 //#include <iostream>
 #endif
 

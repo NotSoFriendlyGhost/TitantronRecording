@@ -1,11 +1,4 @@
 #include "main.h"
-<<<<<<< HEAD
-=======
-#include "pros/misc.h"
-#include "pros/rtos.hpp"
-#include "titantron/globals.hpp"
-#include "titantron/recording.hpp"
->>>>>>> auton-recording
 
 
 /**
