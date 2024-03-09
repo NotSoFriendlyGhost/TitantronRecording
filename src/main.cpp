@@ -1,6 +1,4 @@
 #include "main.h"
-#include "pros/misc.h"
-#include "pros/rtos.hpp"
 
 
 /**
