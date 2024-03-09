@@ -1,6 +1,7 @@
 #include "main.h"
 #include "pros/misc.h"
-#include "pros/rtos.hpp"
+#include "titantron/globals.hpp"
+#include "titantron/recording.hpp"
 
 
 /**
@@ -103,12 +104,18 @@ void opcontrol() {
 	while (true) {
 		drive.arcadeDrive();
 		
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 			intake.move_voltage(12000);
-		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
+			if(recording) trackIntake(1);
+		}
+		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
 			intake.move_voltage(-12000);
-		else
+			if(recording) trackIntake(-1);
+		}
+		else{
 			intake.brake();
+			if(recording) trackIntake(0);
+		}
 
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 			flywheel.move_velocity(600*flywheelVelocity);
@@ -129,11 +136,19 @@ void opcontrol() {
 			}
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) 
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
 			wingState = !wingState;
+			if(recording) trackWings(wingState);
+		} 
 		wings.set_value(wingState);
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) autonomous();
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+			if(!recording)
+				startRecording("recording.txt");
+			else stopRecording();
+		}
 	
 		pros::delay(2);
 	}

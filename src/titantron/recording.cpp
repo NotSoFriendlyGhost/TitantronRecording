@@ -1,11 +1,24 @@
 #include "main.h"
-#include <vector>
-using std::vector;
+#include <fstream>
+#include <ios>
 
-Recording::Recording(std::string filename){
-    
+void startRecording(std::string filename){
+    ofs.open(filename.c_str(), std::ios::out | std::ios::trunc);
+    recording = true;
+}
+void stopRecording(){
+    ofs.close();
+    recording = false;
+}
+void trackLeftStick(double value){
+    ofs<<value<<' ';
+}
+void trackRightStick(double value){
+    ofs<<value<<' ';
+}
+void trackIntake(short state){
+    ofs<<state<<' ';
 };
-void trackIntake(int state);
-void trackLeftStick(double value);
-void trackRightStick(double value);
-void trackWings(bool state);
+void trackWings(bool state){
+    ofs<<state<<' ';
+}
