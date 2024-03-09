@@ -8,7 +8,6 @@ void redLeft(){
 
 void redRight(){
     drive.driveBackward();
-
 }
 
 void blueLeft(){
