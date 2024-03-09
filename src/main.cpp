@@ -1,5 +1,6 @@
 #include "main.h"
 #include "pros/misc.h"
+#include "pros/rtos.hpp"
 #include "titantron/globals.hpp"
 #include "titantron/recording.hpp"
 
@@ -14,14 +15,10 @@
 void initialize() {
 	selector::init();
 
-	master.set_text(0,0,"Calibrating IMU...");
-	pros::delay(100);
 	imu.reset(true);
-	master.clear_line(0);
+	master.clear();
 	pros::delay(100);
-	master.rumble(".");
-	pros::delay(100);
-	master.set_text(0,0,"Ready to roll");
+	master.set_text(0,0,"Inertial Calibrated");
 	pros::delay(100);
 
 	drive.setPID(300,0, 0);
@@ -145,9 +142,20 @@ void opcontrol() {
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) autonomous();
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
-			if(!recording)
+			if(!recording){
+				master.clear_line(1);
+				pros::delay(100);
+				master.set_text(1,0,"Recording...");
+				pros::delay(100);
 				startRecording("recording.txt");
-			else stopRecording();
+			}
+			else {
+				stopRecording();
+				master.clear_line(1);
+				pros::delay(100);
+				master.set_text(1,0,"Recording Saved");
+				pros::delay(100);
+			}
 		}
 	
 		pros::delay(2);
