@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pros/misc.h"
 #include "pros/rtos.hpp"
 
 
@@ -22,7 +23,7 @@ void initialize() {
 	master.set_text(0,0,"Ready to roll");
 	pros::delay(100);
 
-	drive.setPID(10, 0, 0);
+	drive.setPID(550,0, 11);
 
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -131,6 +132,8 @@ void opcontrol() {
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) 
 			wingState = !wingState;
 		wings.set_value(wingState);
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) autonomous();
 	
 		pros::delay(2);
 	}
