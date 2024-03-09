@@ -34,7 +34,7 @@
  */
 #define PROS_USE_LITERALS
 
-#include "api.h"
+#include "api.h" // IWYU pragma: export
 
 /**
  * You should add more #includes here
@@ -75,11 +75,11 @@ void opcontrol(void);
 /**
  * You can add C++-only headers here
  */
-#include "titantron/joystickCurves.hpp"
-#include "titantron/globals.hpp"
-#include "titantron/selection.h"
-#include "titantron/autons.hpp"
-#include "titantron/drivetrain.hpp"
+#include "titantron/joystickCurves.hpp" // IWYU pragma: export
+#include "titantron/globals.hpp" // IWYU pragma: export
+#include "titantron/selection.h" // IWYU pragma: export
+#include "titantron/autons.hpp" // IWYU pragma: export
+#include "titantron/drivetrain.hpp" // IWYU pragma: export
 //#include <iostream>
 #endif
 
