@@ -79,6 +79,7 @@ void Drivetrain::driveForwardPID(double desiredPoint){
         
         double power = error*kP + integral * kI + derivative*kD;
         driveAll(power);
+        std::cout<<error<<'\n';
         
         pros::delay(20);
     }

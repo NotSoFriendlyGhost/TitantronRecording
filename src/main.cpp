@@ -23,7 +23,7 @@ void initialize() {
 	master.set_text(0,0,"Ready to roll");
 	pros::delay(100);
 
-	drive.setPID(550,0, 11);
+	drive.setPID(300,0, 0);
 
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
