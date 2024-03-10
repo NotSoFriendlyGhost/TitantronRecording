@@ -33,11 +33,11 @@ void Drivetrain::drivePID(double encoderDegrees){
     
     
     master.clear_line(0);
-    pros::delay(1000);
+    pros::delay(60);
     std::string position = std::to_string(leftFront->get_position());
     
     master.set_text(0,0,position);
-    pros::delay(100);
+    pros::delay(60);
 }
 
 void Drivetrain::driveAll(double power){
