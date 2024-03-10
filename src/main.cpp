@@ -20,7 +20,7 @@ void initialize() {
 	master.set_text(0,0,"Inertial Calibrated");
 	pros::delay(60);
 
-	drive.setPID(300,0, 0);
+	drive.setPID(625, 0, 0);
 	drive.setGearRatio(3, 5);
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -58,7 +58,6 @@ void competition_initialize() {}
  */
 void autonomous() {
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-	drive.resetDriveEncoders();
 	switch(selector::auton){
 		case 1:
 			redLeft();

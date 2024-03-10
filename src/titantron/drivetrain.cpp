@@ -12,24 +12,26 @@ double Drivetrain::calcDegrees(double inches){
 
 void Drivetrain::drivePID(double encoderDegrees){
     resetDriveEncoders();
-    double error = 100;
-    double prevError = 0;
+    double error;
+    double prevError = encoderDegrees;
     double integral = 0;
     double derivative;
+    double currentPosition;
     bool enablePID = true;
     while(enablePID){
-        error = encoderDegrees - (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
+        currentPosition = (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
+        std::cout<<currentPosition<<'\n';
+        error = encoderDegrees - currentPosition;
         integral += error;
         derivative = error-prevError;
         prevError = error;
         
         double power = error*kP + integral * kI + derivative*kD;
         driveAll(power);
-        std::cout<<error<<'\n';
         
         pros::delay(20);
     }
-    brakeAll();
+    /*brakeAll();
     
     
     master.clear_line(0);
@@ -37,7 +39,7 @@ void Drivetrain::drivePID(double encoderDegrees){
     std::string position = std::to_string(leftFront->get_position());
     
     master.set_text(0,0,position);
-    pros::delay(60);
+    pros::delay(60);*/
 }
 
 void Drivetrain::driveAll(double power){
