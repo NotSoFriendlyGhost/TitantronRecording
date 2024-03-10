@@ -2,12 +2,52 @@
 #include "main.h"
 #include "recording.hpp"
 
-/**
- *
- * Sets up four motor drive train by inputting port numbers. Entering a negative number reverses the motor.
- *
-*/
-Drivetrain::Drivetrain(int leftA, int leftB, int rightA, int rightB){
+
+
+double Drivetrain::calcDegrees(double inches){
+    int oneRev = 360;
+    double degrees = inches * (1 / wheelCircumference) * oneRev * gearRatio;
+    return degrees;
+}
+
+void Drivetrain::drivePID(double encoderDegrees){
+    resetDriveEncoders();
+    double error = 100;
+    double prevError = 0;
+    double integral = 0;
+    double derivative;
+    bool enablePID = true;
+    while(enablePID){
+        error = encoderDegrees - (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
+        integral += error;
+        derivative = error-prevError;
+        prevError = error;
+        
+        double power = error*kP + integral * kI + derivative*kD;
+        driveAll(power);
+        std::cout<<error<<'\n';
+        
+        pros::delay(20);
+    }
+    brakeAll();
+    
+    
+    master.clear_line(0);
+    pros::delay(1000);
+    std::string position = std::to_string(leftFront->get_position());
+    
+    master.set_text(0,0,position);
+    pros::delay(100);
+}
+
+void Drivetrain::driveAll(double power){
+    leftFront->move_voltage(power);
+    leftBack->move_voltage(power);
+    rightFront->move_voltage(power);
+    rightBack->move_voltage(power);
+}
+
+Drivetrain::Drivetrain(int leftA, int leftB, int rightA, int rightB, double wheelDiameter){
     bool reversed;
     reversed = (leftA<0);
     leftFront = new pros::Motor(leftA,pros::E_MOTOR_GEAR_GREEN,reversed,pros::E_MOTOR_ENCODER_DEGREES);
@@ -17,6 +57,12 @@ Drivetrain::Drivetrain(int leftA, int leftB, int rightA, int rightB){
     rightFront = new pros::Motor(rightA,pros::E_MOTOR_GEAR_GREEN,reversed,pros::E_MOTOR_ENCODER_DEGREES);
     reversed = (rightB<0);
     rightBack = new pros::Motor(rightB,pros::E_MOTOR_GEAR_GREEN,reversed,pros::E_MOTOR_ENCODER_DEGREES);
+
+    wheelCircumference = wheelDiameter * M_PI;
+}
+
+void Drivetrain::setGearRatio(double drivenGear, double drivingGear){
+    gearRatio = drivenGear/drivingGear;
 }
 
 void Drivetrain::setPID(double p, double i, double d){
@@ -74,46 +120,6 @@ void Drivetrain::brakeAll(){
     rightBack->brake();
 }
 
-void Drivetrain::driveAll(double power){
-    leftFront->move_voltage(power);
-    leftBack->move_voltage(power);
-    rightFront->move_voltage(power);
-    rightBack->move_voltage(power);
-}
-
-void Drivetrain::driveForwardPID(double desiredPoint){
-    resetDriveEncoders();
-    double error = 100;
-    double prevError = 0;
-    double integral = 0;
-    double derivative;
-    bool enablePID = true;
-    while(enablePID){
-        error = desiredPoint - (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
-        integral += error;
-        derivative = error-prevError;
-        prevError = error;
-        
-        double power = error*kP + integral * kI + derivative*kD;
-        driveAll(power);
-        std::cout<<error<<'\n';
-        
-        pros::delay(20);
-    }
-    brakeAll();
-    
-    
-    master.clear_line(0);
-    pros::delay(1000);
-    std::string position = std::to_string(leftFront->get_position());
-    
-    master.set_text(0,0,position);
-    pros::delay(100);
-}
-
-void Drivetrain::driveBackward(){
-    leftFront->move_relative(-360,100);
-    leftBack->move_relative(-360,100);
-    rightFront->move_relative(-360,100);
-    rightBack->move_relative(-360,100);
+void Drivetrain::driveInches(double inches){
+    drivePID(calcDegrees(inches));
 }

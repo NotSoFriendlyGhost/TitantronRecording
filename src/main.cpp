@@ -21,7 +21,7 @@ void initialize() {
 	pros::delay(100);
 
 	drive.setPID(300,0, 0);
-
+	drive.setGearRatio(3, 5);
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
