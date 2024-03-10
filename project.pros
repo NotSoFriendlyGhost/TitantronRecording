@@ -309,7 +309,8 @@
       }
     },
     "upload_options": {
-      "icon": "pizza"
+      "icon": "pizza",
+      "description": "Team 38535A's code for the 2023-2024 season."
     }
   }
 }
