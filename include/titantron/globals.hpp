@@ -1,6 +1,7 @@
 #pragma once
 
 #include "main.h"
+#include "pros/vision.h"
 #include "pros/vision.hpp"
 #include <fstream>
 
@@ -21,3 +22,4 @@ extern std::ofstream ofs;
 extern bool recording;
 
 extern pros::Vision vision;
+extern pros::vision_signature_s_t greenTriball;

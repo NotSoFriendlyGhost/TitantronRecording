@@ -1,3 +1,4 @@
+#include "globals.hpp"
 #include "main.h"
 #include "pros/vision.h"
 #include "pros/vision.hpp"
@@ -20,5 +21,6 @@ std::ofstream ofs; //Used for recording
 bool recording = false;
 
 pros::Vision vision(8,pros::E_VISION_ZERO_CENTER);
+pros::vision_signature_s_t greenTriball = pros::c::vision_signature_from_utility(1, -6151, -4923, -5536, -6821, -5653, -6238, 7.300, 0);
 
 // TODO: Lifter setup - wait for lifter build
