@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pros/motors.h"
 
 
 /**
@@ -137,7 +138,10 @@ void opcontrol() {
 		} 
 		wings.set_value(wingState);
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) autonomous();
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+			autonomous();
+			drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+		} 
 
 		if(recording) ofs<<'\n';
 
@@ -147,10 +151,12 @@ void opcontrol() {
 				pros::delay(60);
 				master.set_text(1,0,"Recording...");
 				pros::delay(60);
+				drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 				startRecording("recording.txt");
 			}
 			else {
 				stopRecording();
+				drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 				master.clear_line(1);
 				pros::delay(60);
 				master.set_text(1,0,"Recording Saved");
@@ -162,7 +168,9 @@ void opcontrol() {
 			pros::delay(60);
 			master.set_text(1,0, "Replaying...");
 			pros::delay(60);
+			drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 			playback("recording.txt");
+			drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 			master.clear_line(1);
 			pros::delay(60);
 			master.set_text(1,0, "Replay Done");
