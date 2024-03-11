@@ -10,17 +10,17 @@ double Drivetrain::calcDegrees(double inches){
     return degrees;
 }
 
-void Drivetrain::drivePID(double encoderDegrees){
+void Drivetrain::drivePID(double target){
     resetDriveEncoders();
     double error;
-    double prevError = encoderDegrees;
+    double prevError = target;
     double integral = 0;
     double derivative;
     double currentPosition;
     bool enablePID = true;
     while(enablePID){
         currentPosition = (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
-        error = encoderDegrees - currentPosition;
+        error = target - currentPosition;
         if(fabs(error)<=1) enablePID = false;
         integral += error;
         derivative = error-prevError;
