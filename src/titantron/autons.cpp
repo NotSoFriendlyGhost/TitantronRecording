@@ -3,7 +3,9 @@
 
 void redLeft(){
     drive.driveInches(36);
+    drive.brakeAll();
     drive.turnDegrees(90);
+    drive.brakeAll();
 }
 
 void redRight(){
