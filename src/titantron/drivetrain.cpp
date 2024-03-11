@@ -139,21 +139,23 @@ void Drivetrain::turnDegrees(double target){
     while(enablePID){
         currentPosition = imu.get_rotation();
         error = target - currentPosition;
-        //if(fabs(error)<=0.5) enablePID = false;
+        //if(fabs(error)<=0.1) enablePID = false;
         integral += error;
         derivative = error-prevError;
         prevError = error;
-        if(error<=0) integral = 0;
-        
+        if(error<=0) {
+            integral = 0;
+            enablePID = false;
+        }
         double power = error*turnkP + integral * turnkI + derivative * turnkD;
         leftFront->move_voltage(power);
         leftBack->move_voltage(power);
         rightFront->move_voltage(-power);
         rightBack->move_voltage(-power);
         
+        std::cout<<"Current rotation: "<<currentPosition<<'\n';
         pros::delay(20);
     }
-    std::cout<<"Current rotation: "<<currentPosition<<'\n';
     std::cout<<"Target rotation: "<<target<<'\n';
     std::cout<<"DONE\n";
 
