@@ -1,6 +1,7 @@
 #pragma once
 
 #include "main.h"
+#include "pros/vision.hpp"
 #include <fstream>
 
 class Drivetrain;
@@ -18,3 +19,5 @@ extern bool wingState;
 
 extern std::ofstream ofs;
 extern bool recording;
+
+extern pros::Vision vision;

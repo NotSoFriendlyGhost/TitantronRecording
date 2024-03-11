@@ -1,4 +1,6 @@
 #include "main.h"
+#include "pros/vision.h"
+#include "pros/vision.hpp"
 #include <fstream>
 
 
@@ -16,5 +18,7 @@ bool wingState = 0;
 
 std::ofstream ofs; //Used for recording
 bool recording = false;
+
+pros::Vision vision(8,pros::E_VISION_ZERO_CENTER);
 
 // TODO: Lifter setup - wait for lifter build
