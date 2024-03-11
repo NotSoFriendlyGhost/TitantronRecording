@@ -20,17 +20,19 @@ void Drivetrain::drivePID(double encoderDegrees){
     bool enablePID = true;
     while(enablePID){
         currentPosition = (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
-        std::cout<<currentPosition<<'\n';
         error = encoderDegrees - currentPosition;
+        if(fabs(error)<=1) enablePID = false;
         integral += error;
         derivative = error-prevError;
         prevError = error;
+        if(error<=0) integral = 0;
         
         double power = error*kP + integral * kI + derivative*kD;
         driveAll(power);
         
         pros::delay(20);
     }
+    std::cout<<"DONE\n";
     /*brakeAll();
     
     

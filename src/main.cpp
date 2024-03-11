@@ -20,7 +20,7 @@ void initialize() {
 	master.set_text(0,0,"Inertial Calibrated");
 	pros::delay(60);
 
-	drive.setPID(625, 0, 0);
+	drive.setPID(625, 1, 6);
 	drive.setGearRatio(3, 5);
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);

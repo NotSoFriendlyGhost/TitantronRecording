@@ -2,7 +2,7 @@
 #include "main.h"
 
 void redLeft(){
-    drive.driveInches(36);
+    drive.driveInches(72);
 }
 
 void redRight(){
