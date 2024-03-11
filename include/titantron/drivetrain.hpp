@@ -1,6 +1,6 @@
 #pragma once
 
-#include "main.h"
+#include "main.h" // IWYU pragma: keep
 
 class Drivetrain{
     private:
@@ -9,10 +9,11 @@ class Drivetrain{
         pros::Motor* rightFront;
         pros::Motor* rightBack;  
         double kP, kI, kD;
+        double turnkP, turnkI, turnkD;
         double gearRatio;
         double wheelCircumference;
         double calcDegrees(double inches);
-        void drivePID(double encoderDegrees);
+        void drivePID(double target);
         void driveAll(double power);
     public:
         /**
@@ -23,11 +24,13 @@ class Drivetrain{
         Drivetrain(int leftA, int leftB, int rightA, int rightB, double wheelDiameter);
 
         void setGearRatio(double drivenGear, double drivingGear);
-        void setPID(double p, double i, double d);
+        void setDrivePID(double p, double i, double d);
+        void setTurnPID(double p, double i, double d);
         void resetDriveEncoders();
         void arcadeDrive();
         void playbackDrive(double leftStick, double rightStick);
         void setBrakeMode(pros::motor_brake_mode_e brakeMode);
         void brakeAll();
         void driveInches(double inches);
+        void turnDegrees(double target);
 };

@@ -21,7 +21,7 @@ void Drivetrain::drivePID(double target){
     while(enablePID){
         currentPosition = (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
         error = target - currentPosition;
-        if(fabs(error)<=1) enablePID = false;
+        if(fabs(error)<=0.5) enablePID = false;
         integral += error;
         derivative = error-prevError;
         prevError = error;
@@ -32,16 +32,9 @@ void Drivetrain::drivePID(double target){
         
         pros::delay(20);
     }
+    std::cout<<"Current position: "<<currentPosition<<'\n';
+    std::cout<<"Target position: "<<target<<'\n';
     std::cout<<"DONE\n";
-    /*brakeAll();
-    
-    
-    master.clear_line(0);
-    pros::delay(60);
-    std::string position = std::to_string(leftFront->get_position());
-    
-    master.set_text(0,0,position);
-    pros::delay(60);*/
 }
 
 void Drivetrain::driveAll(double power){
@@ -69,10 +62,16 @@ void Drivetrain::setGearRatio(double drivenGear, double drivingGear){
     gearRatio = drivenGear/drivingGear;
 }
 
-void Drivetrain::setPID(double p, double i, double d){
+void Drivetrain::setDrivePID(double p, double i, double d){
     kP = p;
     kI = i;
     kD = d;
+}
+
+void Drivetrain::setTurnPID(double p, double i, double d){
+    turnkP = p;
+    turnkI = i;
+    turnkD = d;
 }
 
 void Drivetrain::resetDriveEncoders(){
@@ -126,4 +125,36 @@ void Drivetrain::brakeAll(){
 
 void Drivetrain::driveInches(double inches){
     drivePID(calcDegrees(inches));
+}
+
+void Drivetrain::turnDegrees(double target){
+    resetDriveEncoders();
+    imu.tare_rotation();
+    double error;
+    double prevError = target;
+    double integral = 0;
+    double derivative;
+    double currentPosition;
+    bool enablePID = true;
+    while(enablePID){
+        currentPosition = imu.get_rotation();
+        error = target - currentPosition;
+        //if(fabs(error)<=0.5) enablePID = false;
+        integral += error;
+        derivative = error-prevError;
+        prevError = error;
+        if(error<=0) integral = 0;
+        
+        double power = error*kP + integral * kI + derivative*kD;
+        leftFront->move_voltage(power);
+        leftBack->move_voltage(power);
+        rightFront->move_voltage(-power);
+        rightBack->move_voltage(-power);
+        
+        pros::delay(20);
+    }
+    std::cout<<"Current rotation: "<<currentPosition<<'\n';
+    std::cout<<"Target rotation: "<<target<<'\n';
+    std::cout<<"DONE\n";
+
 }
