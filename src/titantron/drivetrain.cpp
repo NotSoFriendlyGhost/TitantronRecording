@@ -21,11 +21,13 @@ void Drivetrain::drivePID(double target){
     while(enablePID){
         currentPosition = (leftFront->get_position()+leftBack->get_position()+rightFront->get_position()+rightBack->get_position())/4;
         error = target - currentPosition;
-        if(fabs(error)<=0.5) enablePID = false;
         integral += error;
         derivative = error-prevError;
         prevError = error;
-        if(error<=0) integral = 0;
+        if(error<=0) {
+            integral = 0;
+            enablePID = false;
+        }
         
         double power = error*kP + integral * kI + derivative*kD;
         driveAll(power);
@@ -153,9 +155,9 @@ void Drivetrain::turnDegrees(double target){
         rightFront->move_voltage(-power);
         rightBack->move_voltage(-power);
         
-        std::cout<<"Current rotation: "<<currentPosition<<'\n';
         pros::delay(20);
     }
+    std::cout<<"Current rotation: "<<currentPosition<<'\n';
     std::cout<<"Target rotation: "<<target<<'\n';
     std::cout<<"DONE\n";
 
