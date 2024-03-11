@@ -1,5 +1,7 @@
 #include "main.h"
 #include "pros/motors.h"
+#include "pros/vision.h"
+#include "titantron/globals.hpp"
 
 
 /**
@@ -99,6 +101,10 @@ void opcontrol() {
 	master.print(1, 0, "Flywheel Velocity: 50%");
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
+		int triballSig = 1;
+		pros::vision_object_s_t rtn = vision.get_by_sig(0, 1);
+		std::cout<<"Center x: "<<rtn.x_middle_coord<<'\n';
+		std::cout<<"Center y: "<<rtn.y_middle_coord<<'\n';
 		drive.arcadeDrive();
 		
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
@@ -179,6 +185,6 @@ void opcontrol() {
 
 		}
 	
-		pros::delay(2);
+		pros::delay(500);
 	}
 }
