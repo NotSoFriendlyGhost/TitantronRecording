@@ -104,7 +104,6 @@ void opcontrol() {
 		int triballSig = 1;
 		pros::vision_object_s_t rtn = vision.get_by_sig(0, 1);
 		std::cout<<"Center x: "<<rtn.x_middle_coord<<'\n';
-		std::cout<<"Center y: "<<rtn.y_middle_coord<<'\n';
 		drive.arcadeDrive();
 		
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
