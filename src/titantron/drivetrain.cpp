@@ -145,7 +145,7 @@ void Drivetrain::turnDegrees(double target){
         prevError = error;
         if(error<=0) integral = 0;
         
-        double power = error*kP + integral * kI + derivative*kD;
+        double power = error*turnkP + integral * turnkI + derivative * turnkD;
         leftFront->move_voltage(power);
         leftBack->move_voltage(power);
         rightFront->move_voltage(-power);

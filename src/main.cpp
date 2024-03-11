@@ -22,7 +22,7 @@ void initialize() {
 	pros::delay(60);
 
 	drive.setDrivePID(625, 1, 6);
-	drive.setTurnPID(10, 0, 0);
+	drive.setTurnPID(2, 0, 0);
 	drive.setGearRatio(3, 5);
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
