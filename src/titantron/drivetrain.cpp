@@ -131,7 +131,6 @@ void Drivetrain::driveInches(double inches){
 }
 
 void Drivetrain::turnDegrees(double target){
-    resetDriveEncoders();
     imu.tare_rotation();
     double error;
     double prevError = target;
@@ -142,7 +141,6 @@ void Drivetrain::turnDegrees(double target){
     while(enablePID){
         currentPosition = imu.get_rotation();
         error = target - currentPosition;
-        //if(fabs(error)<=0.1) enablePID = false;
         integral += error;
         derivative = error-prevError;
         prevError = error;
@@ -165,9 +163,8 @@ void Drivetrain::turnDegrees(double target){
 }
 
 void Drivetrain::turnToBall(){
-    resetDriveEncoders();
     int triballSig = 1;
-    pros::vision_object_s_t rtn = vision.get_by_sig(0, 1);
+    pros::vision_object_s_t rtn = vision.get_by_sig(0, triballSig);
     std::cout<<"Center x: "<<rtn.x_middle_coord<<'\n';
     double error;
     double prevError = rtn.x_middle_coord;
@@ -177,7 +174,6 @@ void Drivetrain::turnToBall(){
     bool enablePID = true;
     while(enablePID){
         error = rtn.x_middle_coord;
-        //if(fabs(error)<=0.1) enablePID = false;
         integral += error;
         derivative = error-prevError;
         prevError = error;
