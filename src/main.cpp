@@ -98,7 +98,6 @@ void autonomous() {
  */
 void opcontrol() {
 	master.set_text(1,0,"Flywheel Velocity: 50%");
-	master.print(1, 0, "Flywheel Velocity: 50%");
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
 		int triballSig = 1;

@@ -47,15 +47,10 @@ void Drivetrain::driveAll(double power){
 }
 
 Drivetrain::Drivetrain(int leftA, int leftB, int rightA, int rightB, double wheelDiameter){
-    bool reversed;
-    reversed = (leftA<0);
-    leftFront = new pros::Motor(leftA,pros::E_MOTOR_GEAR_GREEN,reversed,pros::E_MOTOR_ENCODER_DEGREES);
-    reversed = (leftB<0);
-    leftBack = new pros::Motor(leftB,pros::E_MOTOR_GEAR_GREEN,reversed,pros::E_MOTOR_ENCODER_DEGREES);
-    reversed = (rightA<0);
-    rightFront = new pros::Motor(rightA,pros::E_MOTOR_GEAR_GREEN,reversed,pros::E_MOTOR_ENCODER_DEGREES);
-    reversed = (rightB<0);
-    rightBack = new pros::Motor(rightB,pros::E_MOTOR_GEAR_GREEN,reversed,pros::E_MOTOR_ENCODER_DEGREES);
+    leftFront = new pros::Motor(leftA,pros::E_MOTOR_GEAR_GREEN,pros::E_MOTOR_ENCODER_DEGREES);
+    leftBack = new pros::Motor(leftB,pros::E_MOTOR_GEAR_GREEN,pros::E_MOTOR_ENCODER_DEGREES);
+    rightFront = new pros::Motor(rightA,pros::E_MOTOR_GEAR_GREEN,pros::E_MOTOR_ENCODER_DEGREES);
+    rightBack = new pros::Motor(rightB,pros::E_MOTOR_GEAR_GREEN,pros::E_MOTOR_ENCODER_DEGREES);
 
     wheelCircumference = wheelDiameter * M_PI;
 }
@@ -74,6 +69,12 @@ void Drivetrain::setTurnPID(double p, double i, double d){
     turnkP = p;
     turnkI = i;
     turnkD = d;
+}
+
+void Drivetrain::setBallTurnPID(double p, double i, double d){
+    ballTurnkP = p;
+    ballTurnkI = i;
+    ballTurnkD = d;
 }
 
 void Drivetrain::resetDriveEncoders(){
@@ -159,6 +160,40 @@ void Drivetrain::turnDegrees(double target){
     }
     std::cout<<"Current rotation: "<<currentPosition<<'\n';
     std::cout<<"Target rotation: "<<target<<'\n';
+    std::cout<<"DONE\n";
+
+}
+
+void Drivetrain::turnToBall(){
+    resetDriveEncoders();
+    int triballSig = 1;
+    pros::vision_object_s_t rtn = vision.get_by_sig(0, 1);
+    std::cout<<"Center x: "<<rtn.x_middle_coord<<'\n';
+    double error;
+    double prevError = rtn.x_middle_coord;
+    double integral = 0;
+    double derivative;
+    double currentPosition;
+    bool enablePID = true;
+    while(enablePID){
+        error = rtn.x_middle_coord;
+        //if(fabs(error)<=0.1) enablePID = false;
+        integral += error;
+        derivative = error-prevError;
+        prevError = error;
+        if(error<=0) {
+            integral = 0;
+            enablePID = false;
+        }
+        double power = error*turnkP + integral * turnkI + derivative * turnkD;
+        leftFront->move_voltage(power);
+        leftBack->move_voltage(power);
+        rightFront->move_voltage(-power);
+        rightBack->move_voltage(-power);
+        
+        pros::delay(20);
+    }
+    std::cout<<"Horizontal distance from ball: "<<currentPosition<<'\n';
     std::cout<<"DONE\n";
 
 }
