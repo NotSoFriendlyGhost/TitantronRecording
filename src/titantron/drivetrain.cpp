@@ -185,7 +185,7 @@ void Drivetrain::turnToBall(){
             integral = 0;
             enablePID = false;
         }
-        double power = error*turnkP + integral * turnkI + derivative * turnkD;
+        double power = error*ballTurnkP + integral * ballTurnkI + derivative * ballTurnkD;
         leftFront->move_voltage(power);
         leftBack->move_voltage(power);
         rightFront->move_voltage(-power);
