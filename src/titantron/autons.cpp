@@ -8,6 +8,10 @@ void leftScore(){
     drive.brakeAll();
     drive.turnDegrees(90);
     drive.brakeAll();
+    intake.move_voltage(12000);
+    drive.driveInches(24);
+    drive.brakeAll();
+    intake.move_voltage(-12000);
 }
 
 void leftWP(){
