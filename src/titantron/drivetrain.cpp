@@ -37,6 +37,8 @@ void Drivetrain::drivePID(double target){
     std::cout<<"Current position: "<<currentPosition<<'\n';
     std::cout<<"Target position: "<<target<<'\n';
     std::cout<<"DONE\n";
+    drive.brakeAll();
+    pros::delay(15);
 }
 
 void Drivetrain::driveAll(double power){
@@ -160,5 +162,7 @@ void Drivetrain::turnDegrees(double target){
     std::cout<<"Current rotation: "<<currentPosition<<'\n';
     std::cout<<"Target rotation: "<<target<<'\n';
     std::cout<<"DONE\n";
+    drive.brakeAll();
+    pros::delay(15);
 
 }
