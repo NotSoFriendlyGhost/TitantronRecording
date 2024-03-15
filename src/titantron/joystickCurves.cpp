@@ -1,7 +1,7 @@
 #include "main.h"
 
 double leftCurveScale = 0.4;
-double rightCurveScale = 1.6;
+double rightCurveScale = 2.0;
 
 double opcontrolLeftCurve(double stickInput) {
   if (leftCurveScale != 0) {
