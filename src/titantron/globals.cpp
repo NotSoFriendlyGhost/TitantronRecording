@@ -7,7 +7,7 @@
 Drivetrain drive(-1,-12,10,18, 3.25);
 
 pros::Motor intake(2);
-pros::Motor flywheel(15, pros::E_MOTOR_GEAR_BLUE, true);
+pros::Motor flywheel(3, pros::E_MOTOR_GEAR_BLUE, true);
 pros::ADIDigitalOut wings('A', false);
 
 pros::Controller master (CONTROLLER_MASTER);

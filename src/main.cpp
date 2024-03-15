@@ -1,5 +1,6 @@
 #include "main.h"
 #include "pros/motors.h"
+#include "pros/rtos.hpp"
 #include "titantron/autons.hpp"
 
 
@@ -102,8 +103,8 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	master.set_text(1,0,"Flywheel Velocity: 50%");
-	master.print(1, 0, "Flywheel Velocity: 50%");
+	master.set_text(2,0,"Flywheel: 50%");
+	pros::delay(60);
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
 		drive.arcadeDrive();
@@ -131,12 +132,16 @@ void opcontrol() {
 			if(flywheelVelocity==0.5){
 				flywheelVelocity = 0.75;
 				master.clear_line(1);
-				master.set_text(1,0,"Flywheel Velocity: 75%");
+				pros::delay(60);
+				master.set_text(2,0,"Flywheel: 75%");
+				pros::delay(60);
 			}
 			else{
 				flywheelVelocity = 0.5;
-				master.clear_line(1);
-				master.set_text(1,0,"Flywheel Velocity: 50%");
+				master.clear_line(2);
+				pros::delay(60);
+				master.set_text(2,0,"Flywheel: 50%");
+				pros::delay(60);
 			}
 		}
 
