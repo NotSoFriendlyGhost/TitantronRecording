@@ -1,5 +1,6 @@
 #include "main.h"
 #include "pros/motors.h"
+#include "titantron/autons.hpp"
 
 
 /**
@@ -62,16 +63,22 @@ void autonomous() {
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 	switch(selector::auton){
 		case 1:
-			redLeft();
+			leftScore();
 			break;
 		case 2:
-			redRight();
+			leftWP();
+			break;
+		case 3:
+			replay();
 			break;
 		case -1:
-			blueLeft();
+			rightScore();
 			break;
 		case -2:
-			blueRight();
+			rightWP();
+			break;
+		case -3:
+			replay();
 			break;
 		case 0:
 			skills();

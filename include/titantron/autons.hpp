@@ -2,8 +2,9 @@
 
 #include "main.h"
 
-void redLeft();
-void redRight();
-void blueLeft();
-void blueRight();
+void leftScore();
+void leftWP();
+void rightScore();
+void rightWP();
+void replay();
 void skills();

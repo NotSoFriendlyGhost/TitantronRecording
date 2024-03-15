@@ -1,22 +1,28 @@
+#include "autons.hpp"
 #include "globals.hpp"
 #include "main.h"
+#include "recording.hpp"
 
-void redLeft(){
+void leftScore(){
     drive.driveInches(36);
     drive.brakeAll();
     drive.turnDegrees(90);
     drive.brakeAll();
 }
 
-void redRight(){
+void leftWP(){
 }
 
-void blueLeft(){
+void rightScore(){
 
 }
 
-void blueRight(){
+void rightWP(){
 
+}
+
+void replay(){
+    playback("recording.txt");
 }
 
 void skills(){
