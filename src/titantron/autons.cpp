@@ -22,9 +22,10 @@ void leftWP(){
 
 void rightScore(){
     drive.driveInches(36);
-    drive.turnDegrees(90);
+    drive.turnDegrees(120);
+    drive.driveInches(-12);
     intake.move_voltage(12000);
-    drive.driveInches(24);
+    drive.driveInches(8);
     intake.move_voltage(-12000);
 }
 
