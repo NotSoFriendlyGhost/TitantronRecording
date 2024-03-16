@@ -84,4 +84,10 @@ class Drivetrain{
          * Turns for a number of degrees
         */
         void turnDegrees(double target);
+
+        /**
+         * Turn to a heading
+        */
+
+        void turnHeading(double target);
 };

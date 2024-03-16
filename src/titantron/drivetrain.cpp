@@ -165,3 +165,36 @@ void Drivetrain::turnDegrees(double target){
     pros::delay(15);
 
 }
+
+void Drivetrain::turnHeading(double target){
+    resetDriveEncoders();
+    double error;
+    double prevError = target;
+    double integral = 0;
+    double derivative;
+    double currentPosition;
+    bool enablePID = true;
+    while(enablePID){
+        currentPosition = imu.get_heading();
+        error = target - currentPosition;
+        integral += error;
+        derivative = error-prevError;
+        prevError = error;
+        if(error<=0) {
+            integral = 0;
+            enablePID = false;
+        }
+        double power = error*turnkP + integral * turnkI + derivative * turnkD;
+        leftFront->move_voltage(power);
+        leftBack->move_voltage(power);
+        rightFront->move_voltage(-power);
+        rightBack->move_voltage(-power);
+        
+        pros::delay(20);
+    }
+    std::cout<<"Current heading: "<<currentPosition<<'\n';
+    std::cout<<"Target heading: "<<target<<'\n';
+    std::cout<<"DONE\n";
+    drive.brakeAll();
+    pros::delay(15);
+}

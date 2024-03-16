@@ -21,7 +21,8 @@ void leftWP(){
 }
 
 void rightScore(){
-    drive.driveInches(36);
+    imu.set_heading(-45);
+    drive.driveInches(3 * diagTileLength);
     drive.turnDegrees(120);
     drive.driveInches(-12);
     intake.move_voltage(12000);
