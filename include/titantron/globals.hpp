@@ -21,3 +21,6 @@ extern std::ofstream ofs;
 extern bool recording;
 
 extern pros::Vision vision;
+
+extern int tileLength;
+extern double diagTileLength;

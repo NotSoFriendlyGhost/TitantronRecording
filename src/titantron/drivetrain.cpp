@@ -143,7 +143,6 @@ void Drivetrain::turnDegrees(double target){
     while(enablePID){
         currentPosition = imu.get_rotation();
         error = target - currentPosition;
-        //if(fabs(error)<=0.1) enablePID = false;
         integral += error;
         derivative = error-prevError;
         prevError = error;
