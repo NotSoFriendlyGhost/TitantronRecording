@@ -88,6 +88,12 @@ class Drivetrain{
         /**
          * Turn to a heading
         */
-
         void turnHeading(double target);
+
+        /**
+         * Turn while driving
+         * \param target Heading to turn to
+         * \param oppositeScale A value between 0 and 1 (exclusive). It scales down the motor power of the motors opposite the ones turning.
+        */
+        void swingTurn(double target, bool right, double oppositeScale);
 };

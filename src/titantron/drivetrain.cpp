@@ -174,6 +174,7 @@ void Drivetrain::turnHeading(double target){
     double derivative;
     double currentPosition;
     bool enablePID = true;
+    bool right = (fabs(target - imu.get_heading())>0) ? true : false;
     while(enablePID){
         currentPosition = imu.get_heading();
         error = target - currentPosition;
@@ -185,11 +186,58 @@ void Drivetrain::turnHeading(double target){
             enablePID = false;
         }
         double power = error*turnkP + integral * turnkI + derivative * turnkD;
-        leftFront->move_voltage(power);
-        leftBack->move_voltage(power);
-        rightFront->move_voltage(-power);
-        rightBack->move_voltage(-power);
-        
+        if(right){
+            leftFront->move_voltage(power);
+            leftBack->move_voltage(power);
+            rightFront->move_voltage(-power);
+            rightBack->move_voltage(-power);
+        }
+        else{
+            leftFront->move_voltage(-power);
+            leftBack->move_voltage(-power);
+            rightFront->move_voltage(power);
+            rightBack->move_voltage(power);
+        }
+        pros::delay(20);
+    }
+    std::cout<<"Current heading: "<<currentPosition<<'\n';
+    std::cout<<"Target heading: "<<target<<'\n';
+    std::cout<<"DONE\n";
+    drive.brakeAll();
+    pros::delay(15);
+}
+
+void Drivetrain::swingTurn(double target, bool right, double oppositeScale){
+    resetDriveEncoders();
+    double error;
+    double prevError = target;
+    double integral = 0;
+    double derivative;
+    double currentPosition;
+    bool enablePID = true;
+    while(enablePID){
+        currentPosition = imu.get_heading();
+        error = target - currentPosition;
+        integral += error;
+        derivative = error-prevError;
+        prevError = error;
+        if(error<=0) {
+            integral = 0;
+            enablePID = false;
+        }
+        double power = error*turnkP + integral * turnkI + derivative * turnkD;
+        if(right){
+            leftFront->move_voltage(power);
+            leftBack->move_voltage(power);
+            rightFront->move_voltage(power * oppositeScale);
+            rightBack->move_voltage(power * oppositeScale);
+        }
+        else{
+            leftFront->move_voltage(power * oppositeScale);
+            leftBack->move_voltage(power * oppositeScale);
+            rightFront->move_voltage(power);
+            rightBack->move_voltage(power);
+        }
         pros::delay(20);
     }
     std::cout<<"Current heading: "<<currentPosition<<'\n';
