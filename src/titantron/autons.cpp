@@ -18,6 +18,8 @@ void leftScore(){
 }
 
 void leftWP(){
+    imu.set_heading(0);
+    drive.swingTurn(90, 1, 0.2);
 }
 
 /**
