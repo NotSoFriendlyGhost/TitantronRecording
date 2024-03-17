@@ -1,6 +1,7 @@
 #pragma once
 
 #include "main.h"
+#include "pros/motors.hpp"
 #include "pros/vision.hpp"
 #include <fstream>
 
@@ -9,6 +10,7 @@ extern Drivetrain drive;
 
 extern pros::Motor intake;
 extern pros::Motor flywheel;
+extern pros::Motor lifter;
 extern pros::ADIDigitalOut wings;
 
 extern pros::Controller master;

@@ -1,7 +1,9 @@
 #include "main.h"
+#include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "titantron/autons.hpp"
+#include "titantron/globals.hpp"
 
 
 /**
@@ -28,7 +30,8 @@ void initialize() {
 	drive.setGearRatio(3, 5);
 
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	lifter.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
 /**
@@ -103,9 +106,10 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	master.set_text(2,0,"Flywheel: 50%");
+	master.set_text(2,0,"Flywheel: 75%");
 	pros::delay(60);
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	bool endgameDirection = 0;
 	while (true) {
 		drive.arcadeDrive();
 		
@@ -123,9 +127,7 @@ void opcontrol() {
 		}
 
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
-			flywheel.move_velocity(600*flywheelVelocity);
-		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
-			flywheel.move_velocity(-600*flywheelVelocity);
+			flywheel.move_voltage(-12000*flywheelVelocity);
 		else flywheel.brake();
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
@@ -137,10 +139,10 @@ void opcontrol() {
 				pros::delay(60);
 			}
 			else{
-				flywheelVelocity = 0.5;
+				flywheelVelocity = 1;
 				master.clear_line(2);
 				pros::delay(60);
-				master.set_text(2,0,"Flywheel: 50%");
+				master.set_text(2,0,"Flywheel: 100%");
 				pros::delay(60);
 			}
 		}
@@ -150,6 +152,14 @@ void opcontrol() {
 			//if(recording) trackWings(wingState);
 		} 
 		wings.set_value(wingState);
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) endgameDirection = !endgameDirection;
+
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+			if(endgameDirection) lifter.move_voltage(12000);
+			else lifter.move_voltage(-12000);
+		}
+		else lifter.brake();
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			autonomous();
