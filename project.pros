@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Titantron2024",
+    "project_name": "Recording",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -309,8 +309,9 @@
       }
     },
     "upload_options": {
-      "icon": "pizza",
-      "description": "Team 38535A's code for the 2023-2024 season."
+      "icon": "robot",
+      "description": "Team 38535A's code for the 2023-2024 season.",
+      "slot": 3
     }
   }
 }
