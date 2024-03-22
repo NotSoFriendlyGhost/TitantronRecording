@@ -20,6 +20,7 @@ void playback(std::string filename){
     double leftStick = 0;
     double rightStick = 0;
     short intakeState = 0;
+    bool wingValue;
     while (true) {
         ifs>>leftStick;
         if(leftStick==-128) break;
@@ -35,6 +36,8 @@ void playback(std::string filename){
 		else if(intakeState==0){
 			intake.brake();
 		}
+
+        wings.set_value(wingValue);
         pros::delay(2);
 	}
 }

@@ -149,8 +149,8 @@ void opcontrol() {
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
 			wingState = !wingState;
-			//if(recording) trackWings(wingState);
 		} 
+		if(recording) trackWings(wingState);
 		wings.set_value(wingState);
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) endgameDirection = !endgameDirection;
